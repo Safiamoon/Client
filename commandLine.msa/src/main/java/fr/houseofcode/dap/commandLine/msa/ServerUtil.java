@@ -7,25 +7,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * @author msa
  *
+ * @author msa
  */
 public class ServerUtil {
     private final static String USER_AGENT = "Mozilla/5.0";
 
     public String getLabels(String userKey) throws IOException {
+        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
         // TODO Auto-generated method stub
         String getLabels = callserver("/Email/Label", userKey);
         return getLabels;
     }
 
     public String nextEvent(String userKey) throws IOException {
+        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
         // TODO Auto-generated method stub
         String nextEvent = callserver("/CalendarService/Event", userKey);
         return nextEvent;
     }
 
     public String getNbUnreadEmail(String userKey) throws IOException {
+        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
         // TODO Auto-generated method stub
         String NbUnreadEmail = callserver("/Email/Unread", userKey);
         return NbUnreadEmail;
@@ -48,6 +51,7 @@ public class ServerUtil {
         System.out.println("\nSending 'GET' request to URL : " + "http://localhost:8080/" + url);
         System.out.println("Response Code : " + responseCode);
 
+        //TODO MSA by Djer |Gestion Exception| (optionnel) tu peux attraper la IOException levé par con.getInputStream() pour afficher un message d'erreur plus claire à l'utilisateur. Execute ton client sans démarer ton serveur pour produire une "erreur 500" facilement
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
