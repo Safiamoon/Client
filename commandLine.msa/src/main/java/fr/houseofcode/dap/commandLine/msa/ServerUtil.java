@@ -11,59 +11,92 @@ import java.net.URL;
  * @author msa
  */
 public class ServerUtil {
-    private final static String USER_AGENT = "Mozilla/5.0";
 
-    public String getLabels(String userKey) throws IOException {
-        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
-        // TODO Auto-generated method stub
-        String getLabels = callserver("/Email/Label", userKey);
-        return getLabels;
-    }
+	/**
+	 * String user_agent.
+	 */
+	private final static String USER_AGENT = "Mozilla/5.0";
 
-    public String nextEvent(String userKey) throws IOException {
-        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
-        // TODO Auto-generated method stub
-        String nextEvent = callserver("/CalendarService/Event", userKey);
-        return nextEvent;
-    }
+	/**
+	 * Add user account.
+	 * 
+	 * @param userKey
+	 * @return
+	 * @throws IOException
+	 */
+	public String addAccount(final String userKey) throws IOException {
+		String addAccount = callserver("/user/add", userKey);
+		return addAccount;
+	}
 
-    public String getNbUnreadEmail(String userKey) throws IOException {
-        //TODO MSA by Djer |IDE| Supprime les "to-do automatique" une fois que tu les as traités
-        // TODO Auto-generated method stub
-        String NbUnreadEmail = callserver("/Email/Unread", userKey);
-        return NbUnreadEmail;
+	/**
+	 * Get labels function.
+	 * 
+	 * @param userKey
+	 * @return Labels
+	 */
+	public String getLabels(final String userKey) throws IOException {
+		String getLabels = callserver("/Email/Label", userKey);
+		return getLabels;
+	}
 
-    }
+	/**
+	 * Get the next event.
+	 * 
+	 * @param userKey
+	 * @retunr nextEvent
+	 */
+	public String nextEvent(final String userKey) throws IOException {
+		String nextEvent = callserver("/event/next", userKey);
+		return nextEvent;
+	}
 
-    public String callserver(String url, String userKey) throws IOException {
+	/**
+	 * Get the number of unread emails.
+	 * 
+	 * @param userKey
+	 * @return NbUnreadEmail
+	 */
+	public String getNbUnreadEmail(final String userKey) throws IOException {
+		String NbUnreadEmail = callserver("/Email/Unread", userKey);
+		return NbUnreadEmail;
 
-        // HTTP GET request
-        URL obj = new URL("http://localhost:8080" + url + "?userKey=" + userKey);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	}
 
-        // optional default is GET
-        con.setRequestMethod("GET");
+	/**
+	 * Call the server.
+	 * 
+	 * @param url, userKey
+	 * @return Response
+	 */
+	public String callserver(final String url, final String userKey) throws IOException {
 
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
+		// HTTP GET request
+		URL obj = new URL("http://localhost:8081" + url + "?userKey=" + userKey);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + "http://localhost:8080/" + url);
-        System.out.println("Response Code : " + responseCode);
+		// optional default is GET
+		con.setRequestMethod("GET");
 
-        //TODO MSA by Djer |Gestion Exception| (optionnel) tu peux attraper la IOException levé par con.getInputStream() pour afficher un message d'erreur plus claire à l'utilisateur. Execute ton client sans démarer ton serveur pour produire une "erreur 500" facilement
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+		// add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
 
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
+		int responseCode = con.getResponseCode();
+		System.out.println("\nSending 'GET' request to URL : " + "http://localhost:8081/" + url);
+		System.out.println("Response Code : " + responseCode);
 
-        //print result
-        System.out.println(response.toString());
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
 
-        return response.toString();
-    }
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+
+		// print result
+		System.out.println(response.toString());
+
+		return response.toString();
+	}
 }
