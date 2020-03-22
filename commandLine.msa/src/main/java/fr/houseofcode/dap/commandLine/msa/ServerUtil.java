@@ -1,10 +1,16 @@
 package fr.houseofcode.dap.commandLine.msa;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -13,9 +19,26 @@ import java.net.URL;
 public class ServerUtil {
 
 	/**
+	 * Access to constant LOG.
+	 */
+	private static final Logger LOG = LogManager.getLogger();
+
+	/**
 	 * String user_agent.
 	 */
 	private final static String USER_AGENT = "Mozilla/5.0";
+
+	/**
+	 * Loading a web page to add a new user.
+	 * 
+	 * @param userKey
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public void addUser(final String userKey) throws IOException, URISyntaxException {
+		String addUser = "http://localhost:8081/user/add?name=" + userKey;
+		loadingNavigatorPage(addUser);
+	}
 
 	/**
 	 * Add user account.
@@ -23,10 +46,16 @@ public class ServerUtil {
 	 * @param userKey
 	 * @return
 	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
-	public String addAccount(final String userKey) throws IOException {
-		String addAccount = callserver("/user/add", userKey);
+	public String addAccount(final String userKey) throws IOException, URISyntaxException {
+		String addAccount = "http://localhost:8081/account/add/" + userKey;
+		loadingNavigatorPage(addAccount);
 		return addAccount;
+	}
+
+	private void loadingNavigatorPage(final String account) throws IOException, URISyntaxException {
+		Desktop.getDesktop().browse(new URI(account));
 	}
 
 	/**
@@ -44,7 +73,7 @@ public class ServerUtil {
 	 * Get the next event.
 	 * 
 	 * @param userKey
-	 * @retunr nextEvent
+	 * @return nextEvent
 	 */
 	public String nextEvent(final String userKey) throws IOException {
 		String nextEvent = callserver("/event/next", userKey);
