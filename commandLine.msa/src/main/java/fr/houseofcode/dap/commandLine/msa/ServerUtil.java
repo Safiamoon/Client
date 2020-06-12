@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
  * @author msa
  */
 public class ServerUtil {
@@ -69,6 +68,7 @@ public class ServerUtil {
      * @return Labels
      */
     public String getLabels(final String userKey) throws IOException {
+        //TODO MSA by Djer |Rest API| Evite de parfois commencer tes URL par majuscule et parfois des minuscules
         String getLabels = callserver("/Email/Label", userKey);
         return getLabels;
     }

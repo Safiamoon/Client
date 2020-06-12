@@ -46,6 +46,7 @@ public class CmdLineLauncher {
         System.out.println("Entrer le nom d'utilisateur :");
         String choixUserKey = scanner.nextLine();
 
+        //TODO MSA by Djer |POO| Tu ne peux pas (plus) appeler les (Web)services ici, dans le cas ou je souhaite ajouter une utilsiateur, la consultationd'meail porvoquera une erreur car l'utilsiateur n'existe pas. Tu dois apeler tes services dans les "case".
         String labels = su.getLabels(choixUserKey);
         String nbEmails = su.getNbUnreadEmail(choixUserKey);
         String nextEvent = su.nextEvent(choixUserKey);
